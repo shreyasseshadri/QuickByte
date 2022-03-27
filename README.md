@@ -1,5 +1,5 @@
 # KoolKey
-A Kool Key Value store pair
+A Kool Key Value store
 
 ## Initial Plan
 
