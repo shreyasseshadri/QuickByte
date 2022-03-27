@@ -17,7 +17,7 @@ void write_value_to_file(char *file_name, char *data)
 
 	size_t buffer_size = strlen(write_data);
 	printf("Size of data %d \n", buffer_size);
-	FILE *fp = fopen(file_name, "a+");
+	FILE *fp = fopen(file_name, "w+");
 	if (fp == NULL)
 		exit(-1);
 
@@ -28,19 +28,16 @@ void write_value_to_file(char *file_name, char *data)
 
 void read_from_file_at_offset(char *file_name, int offset, size_t buff_size, char *buffer)
 {
-	FILE *fp = open("data.txt", "a+");
+	FILE *fp = fopen(file_name, "r+");
 	if (fp == NULL)
 		exit(-1);
 
-	off_t offset_set = lseek(fp, offset, SEEK_SET);
-	if (offset_set < 0)
-		error_handler("moving offset");
+	off_t offset_set = fseek(fp, offset, SEEK_SET);
+	error_handler("moving offset");
+	printf("Offset moved to %d\n",offset_set);
 
-	ssize_t bytes_read = read(fp, buffer, buff_size);
+	fread(buffer, buff_size,1,fp);
+	error_handler("reading bytes");
 
-	if (bytes_read != buff_size)
-		error_handler("reading bytes");
-
-	buffer[bytes_read] = 0x00; /* Setting the EOC */
 	fclose(fp);
 }
