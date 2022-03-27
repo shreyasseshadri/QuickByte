@@ -4,7 +4,7 @@ A Kool Key Value store
 ## Initial Plan
 
 - [ ] Make an executable that given a key value pair must append it to a file
-- [ ] Write an indexer that has contains the byte offset in the file
+- [ ] Write an indexer that contains the byte offset in the file as we append keys
 - [ ] Provide querying API that first indexes the key and then writes, and then retrieves.
 - [ ] Provide persistant storage to the indexer
 
