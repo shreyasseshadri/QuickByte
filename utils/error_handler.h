@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
 
 void error_handler(char *func_name)
 {	

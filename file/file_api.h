@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "utils/error_handler.h"
+#include <stdlib.h>
+#include "../utils/error_handler.h"
 
 void write_value_to_file(char *file_name, char *data);
 void read_from_file_at_offset(char *file_name, int offset, size_t buff_size, char *buffer);
@@ -32,11 +33,10 @@ void read_from_file_at_offset(char *file_name, int offset, size_t buff_size, cha
 	if (fp == NULL)
 		exit(-1);
 
-	off_t offset_set = fseek(fp, offset, SEEK_SET);
+	fseek(fp, offset, SEEK_SET); // Move file offset to specified offset
 	error_handler("moving offset");
-	printf("Offset moved to %d\n",offset_set);
 
-	fread(buffer, buff_size,1,fp);
+	fread(buffer, buff_size, 1, fp);
 	error_handler("reading bytes");
 
 	fclose(fp);
