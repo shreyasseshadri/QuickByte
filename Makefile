@@ -1,14 +1,8 @@
-test: test.c
-	g++ -o test.out file/file.o utils/error.o test.o
+test: test_c
+	g++ -o test.out test.o
 
-test.c: file_api.h error_handler.h
+test_c:
 	g++ -c test.c -o test.o
-
-file_api.h:
-	g++ -c file/file_api.h -o file/file.o
-
-error_handler.h:
-	g++ -c utils/error_handler.h -o utils/error.o
 
 clean: clean_utils clean_file
 	rm -f *.o

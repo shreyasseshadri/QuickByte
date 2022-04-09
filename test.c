@@ -1,16 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+#include<stdio.h>
+#include<string.h>
 
-#include "file/file_api.h"
+#include "storage/storage-api.h"
 
 int main()
 {
-	char *test = "This is a second test value";
-	/* write_value_to_file("data.txt", test); */
+	std::string test1 = "this is test1";
+	std::string test2 = "this is test2";
 
-	int buff_size = strlen(test);
-	char *buffer = (char *)malloc(buff_size);
-	read_from_file_at_offset("data.txt", 21, buff_size, buffer);
-	printf("Data Read: %s", buffer);
+	key_insert("key1",test1);
+	std::string data = key_retrieve("key1");
+	printf("Value from storage API: %s\n",data);
+
+	key_insert("key2",test2);
+	std::string data2 = key_retrieve("key2");
+	printf("Value from storage API: %s\n",data2);
 	return 0;
 }
