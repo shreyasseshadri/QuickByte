@@ -11,5 +11,6 @@ A Kool Key Value store
 
 > NOTE: CLI support can be provided once project has reached some major milestone. For now we test using test case files directly calling the APIs
 
-## Credits
-Program Manager - Srinag
+## Team
+* [shreyasseshadri](https://github.com/shreyasseshadri) - Developer
+* [srinskit](https://github.com/srinskit) - Program Manager
