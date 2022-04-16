@@ -25,14 +25,17 @@ std::string key_retrieve(std::string key)
 
     if (offset == -1)
     {
-        printf("No such key exists");
+        printf("No such key exists\n");
         return "";
     }
 
     printf("Retrieving at %ld Offset of size %ld\n", offset, size);
     char *buffer = (char *)malloc(size+1);
     read_from_file_at_offset(DATA_FILE, offset, size, buffer);
-    printf("Value Retrieved: %s\n", buffer);
     std::string value(buffer,size+1); /* There is some issue in conversion of char array to string*/
+
+    printf("Value Retrieved: ");
+    std::cout << value;
+    std::cout << "\n";
     return value;
 }
