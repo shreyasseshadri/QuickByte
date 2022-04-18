@@ -5,13 +5,22 @@
 #include <bits/stdc++.h>
 #include "../utils/error_handler.h"
 
+/**
+ * @brief This Class implements APIs for file read and writes
+ */
 class FileStorage
 {
 private:
 	char *delimiter = "\n";
 
 public:
-	long write_value_to_file(char *file_name, std::string data)
+	/**
+	 * @brief writes value to the given file
+	 * @param file_name File name
+	 * @param data the data
+	 * @return long the offset at which the value was written
+	 */
+	long writeValue(char *file_name, std::string data)
 	{
 		const char *buffer = data.c_str();
 		char *write_data = (char *)malloc(strlen(buffer) + strlen(delimiter));
@@ -33,7 +42,14 @@ public:
 		return curr_offset;
 	}
 
-	void read_from_file_at_offset(char *file_name, int offset, size_t buff_size, char *buffer)
+	/**
+	 * @brief Read from a file at an offset
+	 * @param file_name File Name
+	 * @param offset The offset to read from
+	 * @param buff_size The buffer size
+	 * @param buffer Buffer to which data will be copied onto
+	 */
+	void readFromOffset(char *file_name, int offset, size_t buff_size, char *buffer)
 	{
 		FILE *fp = fopen(file_name, "r");
 		if (fp == NULL)

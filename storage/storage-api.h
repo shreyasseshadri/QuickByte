@@ -22,6 +22,10 @@ private:
     FileStorage fileStorage;
 
 public:
+    /**
+     * @brief Construct a new Storage object by giving the indexer type
+     * @param type Indexer type part of `IndexerType` Enum
+     */
     Storage(IndexerType type)
     {
         switch (type)
@@ -39,6 +43,11 @@ public:
         }
     }
 
+    /**
+     * @brief Insert a key value pair
+     * @param key The key
+     * @param value The value
+     */
     void insert(std::string key, std::string value)
     {
         if (indexer == NULL)
@@ -46,12 +55,17 @@ public:
             printf("Indexer not initialized");
             exit(-1);
         }
-        long offset_at = fileStorage.write_value_to_file(DATA_FILE, value);
+        long offset_at = fileStorage.writeValue(DATA_FILE, value);
         printf("Inserted at %ld\n", offset_at);
 
         indexer->index(key, value, offset_at, value.size());
     }
 
+    /**
+     * @brief Retrieve the value given the key
+     * @param key The key
+     * @return std::string Returns value or Empty String if not found 
+     */
     std::string retrieve(std::string key)
     {
         std::pair<long, long> index_data = indexer->retrieveKey(key);
@@ -66,8 +80,8 @@ public:
 
         printf("Retrieving at %ld Offset of size %ld\n", offset, size);
         char *buffer = (char *)malloc(size);
-        fileStorage.read_from_file_at_offset(DATA_FILE, offset, size, buffer);
-        std::string value(buffer, size); /* There is some issue in conversion of char array to string*/
+        fileStorage.readFromOffset(DATA_FILE, offset, size, buffer);
+        std::string value(buffer, size);
 
         printf("Value Retrieved: ");
         std::cout << value;
