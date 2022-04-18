@@ -15,7 +15,7 @@ public:
         key_indexer[key] = std::make_pair(offset, size);
     }
 
-    std::pair<long, long> retrieveKey(std::string key)
+    std::pair<long, long> retrieve(std::string key)
     {
         long error = -1;
         return (key_indexer.find(key) != key_indexer.end())

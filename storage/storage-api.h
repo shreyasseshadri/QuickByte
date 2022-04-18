@@ -68,7 +68,7 @@ public:
      */
     std::string retrieve(std::string key)
     {
-        std::pair<long, long> index_data = indexer->retrieveKey(key);
+        std::pair<long, long> index_data = indexer->retrieve(key);
         long offset = index_data.first;
         long size = index_data.second;
 

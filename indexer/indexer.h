@@ -25,5 +25,5 @@ class Indexer
          * @param key 
          * @return std::pair<long, long> A pair of offset and size of value to read
          */
-        virtual std::pair<long, long> retrieveKey(std::string key) = 0;
+        virtual std::pair<long, long> retrieve(std::string key) = 0;
 };
