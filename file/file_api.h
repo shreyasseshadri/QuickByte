@@ -49,12 +49,10 @@ public:
 	 * @param buff_size The buffer size
 	 * @param buffer Buffer to which data will be copied onto
 	 */
-	void readFromOffset(char *file_name, int offset, size_t buff_size, char *buffer)
+	void readAtOffset(char *file_name, int offset, size_t buff_size, char *buffer)
 	{
 		FILE *fp = fopen(file_name, "r");
-		if (fp == NULL)
-			exit(-1);
-
+		error_handler("Opening File");
 		fseek(fp, offset, SEEK_SET); // Move file offset to specified offset
 		error_handler("moving offset");
 

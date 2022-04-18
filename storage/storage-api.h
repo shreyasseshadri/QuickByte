@@ -80,9 +80,9 @@ public:
 
         printf("Retrieving at %ld Offset of size %ld\n", offset, size);
         char *buffer = (char *)malloc(size);
-        fileStorage.readFromOffset(DATA_FILE, offset, size, buffer);
+        fileStorage.readAtOffset(DATA_FILE, offset, size, buffer);
         std::string value(buffer, size);
-
+        free(buffer);
         printf("Value Retrieved: ");
         std::cout << value;
         std::cout << "\n";
