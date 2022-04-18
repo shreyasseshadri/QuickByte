@@ -3,39 +3,75 @@
 #include <string.h>
 
 #include "../file/file_api.h"
-#include "../indexer/map-indexer.h" /* Have to make it a generic class */
-
-void key_insert(std::string key, std::string value);
-std::string key_retrieve(std::string key);
+#include "../indexer/map-indexer.h"
 
 #define DATA_FILE "data.txt"
 
-void key_insert(std::string key, std::string value)
+enum IndexerType
 {
-    long offset_at = write_value_to_file(DATA_FILE, value);
-    printf("Inserted at %ld\n", offset_at);
-    index_key(key, offset_at, value.size());
-}
+    MAP_INDEXER
+};
 
-std::string key_retrieve(std::string key)
+/**
+ * @brief This is the storage Engine API
+ */
+class Storage
 {
-    std::pair<long, long> index_data = retrieve_index(key);
-    long offset = index_data.first;
-    long size = index_data.second;
+private:
+    Indexer *indexer = NULL;
+    FileStorage fileStorage;
 
-    if (offset == -1)
+public:
+    Storage(IndexerType type)
     {
-        printf("No such key exists\n");
-        return "";
+        switch (type)
+        {
+        case MAP_INDEXER:
+        {
+            indexer = new MapIndexer();
+            break;
+        }
+        default:
+        {
+            indexer = new MapIndexer();
+            break;
+        }
+        }
     }
 
-    printf("Retrieving at %ld Offset of size %ld\n", offset, size);
-    char *buffer = (char *)malloc(size+1);
-    read_from_file_at_offset(DATA_FILE, offset, size, buffer);
-    std::string value(buffer,size+1); /* There is some issue in conversion of char array to string*/
+    void insert(std::string key, std::string value)
+    {
+        if (indexer == NULL)
+        {
+            printf("Indexer not initialized");
+            exit(-1);
+        }
+        long offset_at = fileStorage.write_value_to_file(DATA_FILE, value);
+        printf("Inserted at %ld\n", offset_at);
 
-    printf("Value Retrieved: ");
-    std::cout << value;
-    std::cout << "\n";
-    return value;
-}
+        indexer->index(key, value, offset_at, value.size());
+    }
+
+    std::string retrieve(std::string key)
+    {
+        std::pair<long, long> index_data = indexer->retrieveKey(key);
+        long offset = index_data.first;
+        long size = index_data.second;
+
+        if (offset == -1)
+        {
+            printf("No such key exists\n");
+            return "";
+        }
+
+        printf("Retrieving at %ld Offset of size %ld\n", offset, size);
+        char *buffer = (char *)malloc(size);
+        fileStorage.read_from_file_at_offset(DATA_FILE, offset, size, buffer);
+        std::string value(buffer, size); /* There is some issue in conversion of char array to string*/
+
+        printf("Value Retrieved: ");
+        std::cout << value;
+        std::cout << "\n";
+        return value;
+    }
+};
