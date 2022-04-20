@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <bits/stdc++.h>
-#include "../utils/error_handler.h"
+#include "../utils/error_handler.cpp"
 
 /**
  * @brief This Class implements APIs for file read and writes

@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../file/file_api.h"
-#include "../indexer/map-indexer.h"
+#include "../lib/file_api.cpp"
+#include "../lib/map-indexer.cpp"
 
 #define DATA_FILE "data.txt"
 
