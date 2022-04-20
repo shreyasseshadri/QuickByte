@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "../src/storage-api.cpp"
+#include "../storage/storage-api.hpp"
 
 int main()
 {

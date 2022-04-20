@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <stdio.h>
+#pragma once
 
 /**
  * @brief An abstract class of an indexer.
