@@ -1,5 +1,5 @@
-# KoolKey
-A Kool Key Value store
+# QuickByte
+A Key Value store
 
 ## Initial Plan
 
