@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../file-storage/local-file-storage/local-file-storage.hpp"
+#include "../file-storages/local-file-storage/local-file-storage.hpp"
 #include "../indexers/indexer.hpp"
 #include "../indexers/map-indexer/map-indexer.hpp"
 
