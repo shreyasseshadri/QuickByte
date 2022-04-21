@@ -3,14 +3,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <bits/stdc++.h>
-#include "../utils/error_handler.h"
+#include "../../utils/error-handler/error-handler.hpp"
 
-long write_value_to_file(char *file_name, std::string data);
-void read_from_file_at_offset(char *file_name, int offset, size_t buff_size, char *buffer);
+#include "local-file-storage.hpp"
 
-char *delimiter = "\n";
-
-long write_value_to_file(char *file_name, std::string data)
+long LocalFileStorage::writeValue(char *file_name, std::string data)
 {
 	const char *buffer = data.c_str();
 	char *write_data = (char *)malloc(strlen(buffer) + strlen(delimiter));
@@ -32,12 +29,11 @@ long write_value_to_file(char *file_name, std::string data)
 	return curr_offset;
 }
 
-void read_from_file_at_offset(char *file_name, int offset, size_t buff_size, char *buffer)
+
+void LocalFileStorage::readAtOffset(char *file_name, int offset, size_t buff_size, char *buffer)
 {
 	FILE *fp = fopen(file_name, "r");
-	if (fp == NULL)
-		exit(-1);
-
+	error_handler("Opening File");
 	fseek(fp, offset, SEEK_SET); // Move file offset to specified offset
 	error_handler("moving offset");
 
