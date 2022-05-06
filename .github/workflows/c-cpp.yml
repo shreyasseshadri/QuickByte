@@ -16,4 +16,4 @@ jobs:
     - name: make test
       run: make test
     - name: run test
-      run: make test-ci
+      run: make ci-test
