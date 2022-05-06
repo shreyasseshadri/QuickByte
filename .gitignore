@@ -53,5 +53,6 @@ dkms.conf
 
 # Data Files
 *.txt
+DATA_FILE*
 
 .vscode

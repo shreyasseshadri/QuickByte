@@ -5,8 +5,7 @@
 #include "../file-storages/local-file-storage/local-file-storage.hpp"
 #include "../indexers/indexer.hpp"
 #include "../indexers/map-indexer/map-indexer.hpp"
-
-#define DATA_FILE "data.txt"
+#include "../segment/segment.hpp"
 
 enum IndexerType
 {
@@ -19,8 +18,10 @@ enum IndexerType
 class Storage
 {
 private:
-    Indexer *indexer = NULL;
-    LocalFileStorage fileStorage;
+    Segment* currentSegment;
+    long int segmentCount;
+    std::string fileNamePrefix = "DATA_FILE_";
+    IndexerType indexerType;
 
 public:
     /**
@@ -39,7 +40,10 @@ public:
     /**
      * @brief Retrieve the value given the key
      * @param key The key
-     * @return std::string Returns value or Empty String if not found 
+     * @return std::pair<bool,std::string> Returns a pair where first element returns if the key was found
+     *  the second element contains the value if found or an empty string
      */
-    std::string retrieve(std::string key);
+    std::pair<bool,std::string>  retrieve(std::string key);
+
+    Indexer* instantiateIndexer(IndexerType type);
 };
