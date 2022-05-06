@@ -4,6 +4,10 @@ MAP_INDEXER=indexers/map-indexer
 test: compile-test quick-byte
 	g++ tests/test.o QuickByte.o -o test.out 
 
+ci-test:
+	chmod +x ./test.out
+	./test.out
+
 quick-byte: lib-folder compile-storage-api compile-indexers compile-file-storages compile-utils
 # Link indexers storage-api file-storage and utilities into the final QuickByte object
 	ld -relocatable lib/indexers/*.o lib/file-storages/*.o lib/utilities/*.o storage/storage-api.o -o QuickByte.o
