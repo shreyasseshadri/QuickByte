@@ -13,5 +13,5 @@ A Key Value store
 > NOTE: CLI support can be provided once project has reached some major milestone. For now we test using test case files directly calling the APIs
 
 ## Team
-* [shreyasseshadri](https://github.com/shreyasseshadri) - Developer
+* [shreyasseshadri](https://github.com/shreyasseshadri), [sanjayashokshetty](https://github.com/sanjayashokshetty) - Developers
 * [srinskit](https://github.com/srinskit) - Program Manager
