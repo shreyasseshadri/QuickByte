@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 
-#include "storage-api.hpp"
+#include "disk-storage.hpp"
 
 #define DATA_FILE "data.txt"
 
-Storage::Storage(IndexerType type)
+DiskStorage::DiskStorage(IndexerType type)
 {
     switch (type)
     {
@@ -15,14 +15,13 @@ Storage::Storage(IndexerType type)
     }
     default:
     {
-        indexer = new MapIndexer();
+        indexer = new MapIndexer(); 
         break;
     }
     }
 }
 
-
-void Storage::insert(std::string key, std::string value)
+void DiskStorage::insert(std::string key, std::string value)
 {
     if (indexer == NULL)
     {
@@ -35,8 +34,7 @@ void Storage::insert(std::string key, std::string value)
     indexer->index(key, value, offset_at, value.size());
 }
 
-
-std::string Storage::retrieve(std::string key)
+std::string DiskStorage::retrieve(std::string key)
 {
     std::pair<long, long> index_data = indexer->retrieve(key);
     long offset = index_data.first;

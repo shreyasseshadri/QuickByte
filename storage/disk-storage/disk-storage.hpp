@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../file-storages/local-file-storage/local-file-storage.hpp"
-#include "../indexers/indexer.hpp"
-#include "../indexers/map-indexer/map-indexer.hpp"
+#include "../../file-storages/local-file-storage/local-file-storage.hpp"
+#include "../../indexers/indexer.hpp"
+#include "../../indexers/map-indexer/map-indexer.hpp"
+#include "../storage.hpp"
 
 #define DATA_FILE "data.txt"
 
@@ -14,9 +15,9 @@ enum IndexerType
 };
 
 /**
- * @brief This is the storage Engine API
+ * @brief This is the disk storage Engine API
  */
-class Storage
+class DiskStorage : public Storage
 {
 private:
     Indexer *indexer = NULL;
@@ -27,7 +28,7 @@ public:
      * @brief Construct a new Storage object by giving the indexer type
      * @param type Indexer type part of `IndexerType` Enum
      */
-    Storage(IndexerType type);
+    DiskStorage(IndexerType type);
 
     /**
      * @brief Insert a key value pair

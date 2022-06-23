@@ -10,13 +10,16 @@ ci-test:
 
 quick-byte: lib-folder compile-storage-api compile-indexers compile-file-storages compile-utils
 # Link indexers storage-api file-storage and utilities into the final QuickByte object
-	ld -relocatable lib/indexers/*.o lib/file-storages/*.o lib/utilities/*.o storage/storage-api.o -o QuickByte.o
+	ld -relocatable lib/indexers/*.o lib/file-storages/*.o lib/utilities/*.o lib/engines/*.o -o QuickByte.o
+
+compile-disk-storage:
+	g++ -c storage/disk-storage/disk-storage.cpp -o lib/engines/disk-storage.o
 
 lib-folder:
-	mkdir -p lib/indexers lib/file-storages lib/utilities
+	mkdir -p lib/indexers lib/file-storages lib/utilities lib/engines
 	
-compile-storage-api:
-	g++ -c storage/storage-api.cpp -o storage/storage-api.o
+compile-storage-api: compile-disk-storage
+	g++ -c storage/storage.cpp -o lib/engines/storage.o
 
 compile-indexers: compile-map-indexer
 
