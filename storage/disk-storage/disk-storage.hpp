@@ -35,12 +35,12 @@ public:
      * @param key The key
      * @param value The value
      */
-    void insert(std::string key, std::string value);
+    void upsert(std::string key, std::string value);
 
     /**
      * @brief Retrieve the value given the key
      * @param key The key
      * @return std::string Returns value or Empty String if not found 
      */
-    std::string retrieve(std::string key);
+    std::pair<bool,std::string> retrieve(std::string key);
 };

@@ -9,6 +9,8 @@ Storage *Storage::factory(StorageType type = DISK)
     {
     case DISK:
         return new DiskStorage(MAP_INDEXER);
+    case IN_MEMORY:
+        return new InMemoryStorage();
     default:
         return new DiskStorage(MAP_INDEXER);
     }

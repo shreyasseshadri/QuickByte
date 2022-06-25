@@ -15,17 +15,20 @@ quick-byte: lib-folder compile-storage-api compile-indexers compile-file-storage
 compile-disk-storage:
 	g++ -c storage/disk-storage/disk-storage.cpp -o lib/engines/disk-storage.o
 
+compile-in-memory-storage:
+	g++ -c storage/in-memory-storage/in-memory-storage.cpp -o lib/engines/in-memory-storage.o
+
 lib-folder:
 	mkdir -p lib/indexers lib/file-storages lib/utilities lib/engines
 	
-compile-storage-api: compile-disk-storage
+compile-storage-api: compile-disk-storage compile-in-memory-storage
 	g++ -c storage/storage.cpp -o lib/engines/storage.o
 
 compile-indexers: compile-map-indexer
 
 compile-file-storages: compile-local-file-storage
 
-compile-utils: compile-error-handler
+compile-utils: compile-error-handler compile-bst
 
 compile-local-file-storage:
 	g++ -c ${LOCAL_FILE_STORAGE}/local-file-storage.cpp -o lib/file-storages/local-file-storage.o
@@ -38,6 +41,9 @@ compile-test:
 
 compile-error-handler:
 	g++ -c utils/error-handler/error-handler.cpp -o lib/utilities/error-handler.o
+
+compile-bst:
+	g++ -c utils/bst/bst.cpp -o lib/utilities/bst.o
 
 clean:
 	find . -type f -name '*.o' -delete

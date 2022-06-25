@@ -15,13 +15,13 @@ DiskStorage::DiskStorage(IndexerType type)
     }
     default:
     {
-        indexer = new MapIndexer(); 
+        indexer = new MapIndexer();
         break;
     }
     }
 }
 
-void DiskStorage::insert(std::string key, std::string value)
+void DiskStorage::upsert(std::string key, std::string value)
 {
     if (indexer == NULL)
     {
@@ -34,7 +34,7 @@ void DiskStorage::insert(std::string key, std::string value)
     indexer->index(key, value, offset_at, value.size());
 }
 
-std::string DiskStorage::retrieve(std::string key)
+std::pair<bool, std::string> DiskStorage::retrieve(std::string key)
 {
     std::pair<long, long> index_data = indexer->retrieve(key);
     long offset = index_data.first;
@@ -43,7 +43,7 @@ std::string DiskStorage::retrieve(std::string key)
     if (offset == -1)
     {
         printf("No such key exists\n");
-        return "";
+        return std::make_pair(false, "");
     }
 
     printf("Retrieving at %ld Offset of size %ld\n", offset, size);
@@ -54,5 +54,5 @@ std::string DiskStorage::retrieve(std::string key)
     printf("Value Retrieved: ");
     std::cout << value;
     std::cout << "\n";
-    return value;
+    return std::make_pair(true, value);
 }
