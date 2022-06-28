@@ -30,6 +30,8 @@ public:
      */
     DiskStorage(IndexerType type);
 
+    ~DiskStorage();
+
     /**
      * @brief Insert a key value pair
      * @param key The key

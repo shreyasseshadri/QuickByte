@@ -2,7 +2,6 @@
 
 InMemoryStorage::InMemoryStorage()
 {
-    printf("Here bst");
     bst = new Bst();
 }
 

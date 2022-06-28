@@ -14,8 +14,9 @@ private:
     Storage *storage_engine;
 
 public:
+    static Storage *factory(StorageType);
 
-    static Storage* factory(StorageType);
+    virtual ~Storage(){};
 
     /**
      * @brief Insert a key value pair
@@ -29,5 +30,5 @@ public:
      * @param key The key
      * @return std::string Returns value or Empty String if not found
      */
-    virtual std::pair<bool,std::string> retrieve(std::string key) = 0;
+    virtual std::pair<bool, std::string> retrieve(std::string key) = 0;
 };

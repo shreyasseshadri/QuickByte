@@ -4,17 +4,11 @@ Node *Bst::init_node(std::string key = "", std::string value = "", Node *left = 
 {
     Node *node = new Node();
 
-    std::cout << "Node malloced\n";
     node->key = key;
-    std::cout << "Node keyed\n";
-
     node->value = value;
-    std::cout << "Node valueded\n";
-
     node->left = left;
     node->right = right;
 
-    std::cout << "Node init\n";
     return node;
 }
 
@@ -25,7 +19,6 @@ Bst::Bst()
 
 Bst::~Bst()
 {
-    printf("\nFree is called\n");
     Node *node = root;
 
     std::vector<Node *> stack;
@@ -87,7 +80,6 @@ Node *Bst::upsert_node(std::string key, std::string value)
         }
     }
 
-    std::cout << key << " " << value << "\n";
     Node *new_node = init_node(key, value);
 
     if (!prev)

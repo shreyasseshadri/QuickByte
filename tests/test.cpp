@@ -19,11 +19,10 @@ void test_engine(Storage *storage)
 	std::string valueRetrieved2 = storage->retrieve("key2").second;
 	assert(value2 == valueRetrieved2);
 
-	// storage->upsert("key1", "Updated value 1");
-	// assert(storage->retrieve("key1").second == "Updated value 1");
+	storage->upsert("key1", "Updated value 1");
+	assert(storage->retrieve("key1").second == "Updated value 1");
 
 	assert(storage->retrieve("Non existent").first == false);
-	std::cout << "\nstorage test done\n";
 }
 
 int main()

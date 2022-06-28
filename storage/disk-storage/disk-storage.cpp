@@ -21,6 +21,8 @@ DiskStorage::DiskStorage(IndexerType type)
     }
 }
 
+DiskStorage::~DiskStorage() {}
+
 void DiskStorage::upsert(std::string key, std::string value)
 {
     if (indexer == NULL)
