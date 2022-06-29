@@ -4,6 +4,7 @@ Node *Bst::init_node(std::string key = "", std::string value = "", Node *left = 
 {
     Node *node = new Node();
 
+    pthread_mutex_init(&node->lock, NULL);
     node->key = key;
     node->value = value;
     node->left = left;
@@ -35,6 +36,9 @@ Bst::~Bst()
             stack.push_back(node->left);
         if (node->right)
             stack.push_back(node->right);
+
+        pthread_mutex_destroy(&node->lock);
+
         delete node;
     }
 }
@@ -63,6 +67,9 @@ Node *Bst::upsert_node(std::string key, std::string value)
 
     while (node)
     {
+        // Lock from here, multiple threads should not insert nodes at the same time,
+        // Might lead to overriding paths
+        pthread_mutex_lock(&node->lock);
         prev = node;
         if (node->key.compare(key) < 0)
         {
@@ -72,12 +79,21 @@ Node *Bst::upsert_node(std::string key, std::string value)
         {
             // If the key already exists, we update the node
             node->value = value;
+            // Here we update and hence it can be unlocked, as we no longer have need for this
+            pthread_mutex_unlock(&node->lock);
             return node;
         }
         else
         {
             node = node->right;
         }
+
+        if (node)
+            // After we moved `node` ptr, we can unlock nodes which we will not insert below
+            pthread_mutex_unlock(&prev->lock);
+
+        // If `node` is NULL that means we will be inserting below `prev` node,
+        // and hence we will not be unlocking it here, and will unlock once after we insert new node
     }
 
     Node *new_node = init_node(key, value);
@@ -88,10 +104,12 @@ Node *Bst::upsert_node(std::string key, std::string value)
         return new_node;
     }
 
-    if (prev->key.compare(key) <= 0)
+    if (prev->key.compare(key) < 0)
         prev->left = new_node;
     else
         prev->right = new_node;
 
+    // After inserting new node we unlock the prev node
+    pthread_mutex_unlock(&prev->lock);
     return new_node;
 }

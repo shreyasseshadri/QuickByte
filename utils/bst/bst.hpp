@@ -6,6 +6,8 @@ typedef struct Node
     std::string value;
     Node *left;
     Node *right;
+
+    pthread_mutex_t lock;
 };
 
 class Bst
