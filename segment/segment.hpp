@@ -18,6 +18,7 @@ public:
     long int segmentSizeLeft;
     
     Segment(Indexer* idxr,std::string name);
-    void writeToSegment(std::string key,std::string value);
-    std::pair<bool,std::string> readFromSegment(std::string key);
+    void write_to_segment(std::string key,std::string value);
+    std::pair<bool,std::string> read_from_segment(std::string key);
+    bool delete_if_exists(std::string key);
 };

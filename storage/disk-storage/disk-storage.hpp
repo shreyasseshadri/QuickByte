@@ -21,7 +21,7 @@ enum IndexerType
 class DiskStorage : public Storage
 {
 private:
-    Segment* currentSegment;
+    Segment *currentSegment;
     long int segmentCount;
     std::string fileNamePrefix = "DATA_FILE_";
     IndexerType indexerType;
@@ -49,9 +49,7 @@ public:
      */
     std::pair<bool, std::string> retrieve(std::string key);
 
-    Indexer* instantiateIndexer(IndexerType type);
-    
-    bool delete_key(std::string key) {
-        // Leaving it as a no-op for now
-    }
+    Indexer *instantiateIndexer(IndexerType type);
+
+    bool delete_key(std::string key);
 };

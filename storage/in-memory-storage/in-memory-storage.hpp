@@ -12,4 +12,5 @@ public:
     ~InMemoryStorage();
     void upsert(std::string key, std::string value);
     std::pair<bool, std::string> retrieve(std::string key);
+    virtual bool delete_key(std::string key);
 };

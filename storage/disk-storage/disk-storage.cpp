@@ -47,7 +47,7 @@ void DiskStorage::upsert(std::string key, std::string value)
         currentSegment = newSegment;
     }
 
-    currentSegment->writeToSegment(key, value);
+    currentSegment->write_to_segment(key, value);
 }
 
 std::pair<bool, std::string> DiskStorage::retrieve(std::string key)
@@ -57,7 +57,7 @@ std::pair<bool, std::string> DiskStorage::retrieve(std::string key)
 
     while (segmentPointer && !segmentInfo.first)
     {
-        segmentInfo = segmentPointer->readFromSegment(key);
+        segmentInfo = segmentPointer->read_from_segment(key);
         segmentPointer = segmentPointer->prev;
     }
 
@@ -67,4 +67,17 @@ std::pair<bool, std::string> DiskStorage::retrieve(std::string key)
     }
 
     return segmentInfo;
+}
+
+bool DiskStorage::delete_key(std::string key)
+{
+    bool isDeleted = false;
+    Segment *segmentPointer = currentSegment;
+
+    while (segmentPointer && !isDeleted)
+    {
+        isDeleted = segmentPointer->delete_if_exists(key);
+    }
+
+    return isDeleted;
 }

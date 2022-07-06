@@ -19,3 +19,8 @@ std::pair<bool, std::string> InMemoryStorage::retrieve(std::string key)
 {
     return bst->find_node(key);
 }
+
+bool InMemoryStorage::delete_key(std::string key)
+{
+    return bst->delete_node(key);
+}
