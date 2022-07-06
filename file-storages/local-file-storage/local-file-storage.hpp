@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../file-storage.hpp"
 
 class LocalFileStorage : public FileStorage

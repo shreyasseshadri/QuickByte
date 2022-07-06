@@ -31,4 +31,12 @@ public:
      * @return std::string Returns value or Empty String if not found
      */
     virtual std::pair<bool, std::string> retrieve(std::string key) = 0;
+
+    /**
+     * @brief Deletes the given key
+     * @param key 
+     * @return true If key is succesfully deleted
+     * @return false If key is not deleted
+     */
+    virtual bool delete_key(std::string key) = 0;
 };

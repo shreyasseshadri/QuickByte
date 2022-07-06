@@ -1,3 +1,4 @@
+#pragma once
 
 #include <bits/stdc++.h>
 #include "../utils/error-handler/error-handler.hpp"
@@ -27,3 +28,4 @@ public:
      */
     void readAtOffset(char *file_name, int offset, size_t buff_size, char *buffer);
 };
+ 

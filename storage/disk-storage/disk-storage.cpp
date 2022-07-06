@@ -3,9 +3,21 @@
 #include "disk-storage.hpp"
 
 #define DATA_FILE "data.txt"
+#include "../storage.hpp"
+#include "../../utils/segment/segment.hpp"
 
 DiskStorage::DiskStorage(IndexerType type)
 {
+    indexerType = type;
+    Indexer *idxr = instantiateIndexer(indexerType);
+    Segment *segmentHead = new Segment(idxr, fileNamePrefix + "0");
+    currentSegment = segmentHead;
+    segmentCount = 1;
+}
+
+Indexer *DiskStorage::instantiateIndexer(IndexerType type)
+{
+    Indexer *indexer = NULL;
     switch (type)
     {
     case MAP_INDEXER:
@@ -19,42 +31,40 @@ DiskStorage::DiskStorage(IndexerType type)
         break;
     }
     }
+    return indexer;
 }
 
 DiskStorage::~DiskStorage() {}
 
 void DiskStorage::upsert(std::string key, std::string value)
 {
-    if (indexer == NULL)
+    if (currentSegment->segmentSizeLeft < (long)value.size())
     {
-        printf("Indexer not initialized");
-        exit(-1);
+        Indexer *idxr = instantiateIndexer(indexerType);
+        Segment *newSegment = new Segment(idxr, fileNamePrefix + std::to_string(segmentCount));
+        link_segments(currentSegment, newSegment);
+        segmentCount += 1;
+        currentSegment = newSegment;
     }
-    long offset_at = fileStorage.writeValue(DATA_FILE, value);
-    printf("Inserted at %ld\n", offset_at);
 
-    indexer->index(key, value, offset_at, value.size());
+    currentSegment->writeToSegment(key, value);
 }
 
 std::pair<bool, std::string> DiskStorage::retrieve(std::string key)
 {
-    std::pair<long, long> index_data = indexer->retrieve(key);
-    long offset = index_data.first;
-    long size = index_data.second;
+    std::pair<bool, std::string> segmentInfo = std::make_pair(false, "");
+    Segment *segmentPointer = currentSegment;
 
-    if (offset == -1)
+    while (segmentPointer && !segmentInfo.first)
     {
-        printf("No such key exists\n");
-        return std::make_pair(false, "");
+        segmentInfo = segmentPointer->readFromSegment(key);
+        segmentPointer = segmentPointer->prev;
     }
 
-    printf("Retrieving at %ld Offset of size %ld\n", offset, size);
-    char *buffer = (char *)malloc(size);
-    fileStorage.readAtOffset(DATA_FILE, offset, size, buffer);
-    std::string value(buffer, size);
-    free(buffer);
-    printf("Value Retrieved: ");
-    std::cout << value;
-    std::cout << "\n";
-    return std::make_pair(true, value);
+    if (!segmentInfo.first)
+    {
+        std::cout << "Key: " << key << " does not exist\n";
+    }
+
+    return segmentInfo;
 }
