@@ -2,8 +2,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <threads.h>
 
 #include "../storage/storage.hpp"
+
+void test_engine_concurrency(Storage *storage, int id)
+{
+	std::string key = std::to_string(id);
+	storage->upsert(key, key);
+	assert(storage->retrieve(key).second == key);
+	storage->delete_key(key);
+	assert(storage->retrieve(key).first == false);
+}
 
 void test_engine(Storage *storage)
 {
@@ -30,12 +40,20 @@ void test_engine(Storage *storage)
 
 int main()
 {
-	Storage *disk_storage = Storage::factory(DISK);
-	// Storage *in_memory_storage = Storage::factory(IN_MEMORY);
+	Storage *in_memory_storage = Storage::factory(IN_MEMORY, true);
+	int n = 10000;
+	std::thread mythreads[n];
 
-	test_engine(disk_storage);
+	for (int i = 0; i < n; i++)
+	{
+		mythreads[i] = std::thread(test_engine_concurrency, in_memory_storage, i);
+	}
 
-	// test_engine(in_memory_storage);
-	// delete in_memory_storage;
+	for (int i = 0; i < n; i++)
+	{
+		mythreads[i].join();
+	}
+
+	delete in_memory_storage;
 	return 0;
 }

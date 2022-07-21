@@ -2,7 +2,7 @@ LOCAL_FILE_STORAGE=file-storages/local-file-storage
 MAP_INDEXER=indexers/map-indexer
 
 test: compile-test quick-byte
-	g++ tests/test.o QuickByte.o -o test.out 
+	g++ -g -O0 -pthread tests/test.o QuickByte.o -o test.out 
 
 ci-test:
 	chmod +x ./test.out
@@ -13,16 +13,17 @@ quick-byte: lib-folder compile-storage-api compile-indexers compile-file-storage
 	ld -relocatable lib/indexers/*.o lib/file-storages/*.o lib/utilities/*.o lib/engines/*.o lib/segment/*.o -o QuickByte.o
 
 compile-disk-storage:
-	g++ -c storage/disk-storage/disk-storage.cpp -o lib/engines/disk-storage.o
+	# -g to include the symbol table in the output for debugging purposes
+	g++ -g -c storage/disk-storage/disk-storage.cpp -o lib/engines/disk-storage.o
 
 compile-in-memory-storage:
-	g++ -c storage/in-memory-storage/in-memory-storage.cpp -o lib/engines/in-memory-storage.o
+	g++ -g -c storage/in-memory-storage/in-memory-storage.cpp -o lib/engines/in-memory-storage.o
 
 lib-folder:
 	mkdir -p lib/indexers lib/file-storages lib/utilities lib/engines lib/segment
 	
 compile-storage-api: compile-disk-storage compile-in-memory-storage
-	g++ -c storage/storage.cpp -o lib/engines/storage.o
+	g++ -g -c storage/storage.cpp -o lib/engines/storage.o
 
 compile-indexers: compile-map-indexer
 
@@ -31,25 +32,25 @@ compile-file-storages: compile-local-file-storage
 compile-utils: compile-error-handler compile-bst compile-segment-utils
 
 compile-segment:
-	g++ -c segment/segment.cpp -o lib/segment/segment.o
+	g++ -g -c segment/segment.cpp -o lib/segment/segment.o
 
 compile-local-file-storage:
-	g++ -c ${LOCAL_FILE_STORAGE}/local-file-storage.cpp -o lib/file-storages/local-file-storage.o
+	g++ -g -c ${LOCAL_FILE_STORAGE}/local-file-storage.cpp -o lib/file-storages/local-file-storage.o
 
 compile-map-indexer:
-	g++ -c ${MAP_INDEXER}/map-indexer.cpp -o lib/indexers/map-indexer.o
+	g++ -g -c ${MAP_INDEXER}/map-indexer.cpp -o lib/indexers/map-indexer.o
 
 compile-test:
-	g++ -c tests/test.cpp -o tests/test.o
+	g++ -g -c tests/test.cpp -o tests/test.o
 
 compile-segment-utils:
-	g++ -c utils/segment/segment.cpp -o lib/utilities/segment-utils.o
+	g++ -g -c utils/segment/segment.cpp -o lib/utilities/segment-utils.o
 
 compile-error-handler:
-	g++ -c utils/error-handler/error-handler.cpp -o lib/utilities/error-handler.o
+	g++ -g -c utils/error-handler/error-handler.cpp -o lib/utilities/error-handler.o
 
 compile-bst:
-	g++ -c utils/bst/bst.cpp -o lib/utilities/bst.o
+	g++ -g -c utils/bst/bst.cpp -o lib/utilities/bst.o
 
 clean: clear_data
 	find . -type f -name '*.o' -delete

@@ -14,7 +14,7 @@ private:
     Storage *storage_engine;
 
 public:
-    static Storage *factory(StorageType);
+    static Storage *factory(StorageType, bool should_lock = true);
 
     virtual ~Storage(){};
 
@@ -34,7 +34,7 @@ public:
 
     /**
      * @brief Deletes the given key
-     * @param key 
+     * @param key
      * @return true If key is succesfully deleted
      * @return false If key is not deleted
      */

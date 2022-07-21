@@ -1,8 +1,8 @@
 #include "./in-memory-storage.hpp"
 
-InMemoryStorage::InMemoryStorage()
+InMemoryStorage::InMemoryStorage(bool should_lock)
 {
-    bst = new Bst();
+    bst = new Bst(should_lock);
 }
 
 InMemoryStorage::~InMemoryStorage()

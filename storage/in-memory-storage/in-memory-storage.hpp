@@ -8,7 +8,7 @@ private:
     Bst *bst;
 
 public:
-    InMemoryStorage();
+    InMemoryStorage(bool should_lock);
     ~InMemoryStorage();
     void upsert(std::string key, std::string value);
     std::pair<bool, std::string> retrieve(std::string key);
