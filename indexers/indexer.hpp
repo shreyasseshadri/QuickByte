@@ -27,4 +27,6 @@ class Indexer
          * @return std::pair<long, long> A pair of offset and size of value to read
          */
         virtual std::pair<long, long> retrieve(std::string key) = 0;
+
+        virtual void remove(std::string key) = 0;
 };

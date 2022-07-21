@@ -12,4 +12,6 @@ public:
     void index(std::string key, std::string value, long int offset, long int size);
 
     std::pair<long, long> retrieve(std::string key);
+
+    void remove(std::string key);
 };
