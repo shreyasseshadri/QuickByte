@@ -2,6 +2,7 @@
 #include "../../utils/error-handler/error-handler.hpp"
 #include "../storage.hpp"
 
+
 class InMemoryStorage : public Storage
 {
 private:
@@ -10,7 +11,7 @@ private:
 public:
     InMemoryStorage(bool should_lock);
     ~InMemoryStorage();
-    void upsert(std::string key, std::string value);
+    UPSERT upsert(std::string key, std::string value);
     std::pair<bool, std::string> retrieve(std::string key);
     virtual bool delete_key(std::string key);
 };

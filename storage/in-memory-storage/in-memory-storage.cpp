@@ -10,9 +10,10 @@ InMemoryStorage::~InMemoryStorage()
     delete bst;
 }
 
-void InMemoryStorage::upsert(std::string key, std::string value)
+UPSERT InMemoryStorage::upsert(std::string key, std::string value)
 {
-    bst->upsert_node(key, value);
+    bool is_insert = bst->upsert_node(key, value);
+    return is_insert ? INSERT : UPDATE;
 }
 
 std::pair<bool, std::string> InMemoryStorage::retrieve(std::string key)

@@ -4,13 +4,31 @@ MAP_INDEXER=indexers/map-indexer
 test: compile-test quick-byte
 	g++ -g -O0 -pthread tests/test.o QuickByte.o -o test.out 
 
+compile-cli:
+	g++ cli/cli.cpp -o cli/cli.o -L/usr/local/lib -I/usr/local/include -lreadline
+
+server: compile-server quick-byte
+	g++ -g -O0 -pthread server/server.o QuickByte.o -o server/server.out
+
+compile-server:
+	g++ -g -c -pthread server/server.cpp -o server/server.o
+
+test-query-engine: compile-test-query quick-byte
+	g++ -g -O0 -pthread tests/test-query.o QuickByte.o -o test.out 
+
+compile-test-query: 
+	g++ -g -c tests/test-query-engine.cpp -o tests/test-query.o
+
 ci-test:
 	chmod +x ./test.out
 	./test.out
 
-quick-byte: lib-folder compile-storage-api compile-indexers compile-file-storages compile-utils compile-segment
+quick-byte: lib-folder compile-storage-api compile-indexers compile-file-storages compile-utils compile-segment compile-query-engine
 # Link indexers storage-api file-storage and utilities into the final QuickByte object
-	ld -relocatable lib/indexers/*.o lib/file-storages/*.o lib/utilities/*.o lib/engines/*.o lib/segment/*.o -o QuickByte.o
+	ld -relocatable lib/indexers/*.o lib/file-storages/*.o lib/utilities/*.o lib/engines/*.o lib/segment/*.o lib/query-engine/*.o -o QuickByte.o
+
+compile-query-engine:
+	g++ -g -c query-engine/query-engine.cpp -o lib/query-engine/query-engine.o
 
 compile-disk-storage:
 	# -g to include the symbol table in the output for debugging purposes
@@ -20,7 +38,7 @@ compile-in-memory-storage:
 	g++ -g -c storage/in-memory-storage/in-memory-storage.cpp -o lib/engines/in-memory-storage.o
 
 lib-folder:
-	mkdir -p lib/indexers lib/file-storages lib/utilities lib/engines lib/segment
+	mkdir -p lib/indexers lib/file-storages lib/utilities lib/engines lib/segment lib/query-engine
 	
 compile-storage-api: compile-disk-storage compile-in-memory-storage
 	g++ -g -c storage/storage.cpp -o lib/engines/storage.o

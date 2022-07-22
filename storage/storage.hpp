@@ -8,6 +8,12 @@ enum StorageType
     IN_MEMORY
 };
 
+enum UPSERT
+{
+    INSERT,
+    UPDATE
+};
+
 class Storage
 {
 private:
@@ -23,7 +29,7 @@ public:
      * @param key The key
      * @param value The value
      */
-    virtual void upsert(std::string key, std::string value) = 0;
+    virtual UPSERT upsert(std::string key, std::string value) = 0;
 
     /**
      * @brief Retrieve the value given the key
