@@ -41,7 +41,15 @@ public:
     ~Bst();
     std::pair<bool, std::string> find_node(std::string key);
 
-    Node *upsert_node(std::string key, std::string value);
+    /**
+     * @brief Upserts a given node into the bst
+     * Thread safe
+     * @param key Key
+     * @param value Value
+     * @return true if its an insert
+     * @return else false
+     */
+    bool upsert_node(std::string key, std::string value);
 
     bool delete_node(std::string key);
 };

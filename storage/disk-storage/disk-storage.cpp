@@ -36,7 +36,7 @@ Indexer *DiskStorage::instantiateIndexer(IndexerType type)
 
 DiskStorage::~DiskStorage() {}
 
-void DiskStorage::upsert(std::string key, std::string value)
+UPSERT DiskStorage::upsert(std::string key, std::string value)
 {
     if (currentSegment->segmentSizeLeft < (long)value.size())
     {
@@ -48,6 +48,9 @@ void DiskStorage::upsert(std::string key, std::string value)
     }
 
     currentSegment->write_to_segment(key, value);
+
+    // Segments are append only hence they are always inserted at a new offset even if previous key exists
+    return INSERT;
 }
 
 std::pair<bool, std::string> DiskStorage::retrieve(std::string key)

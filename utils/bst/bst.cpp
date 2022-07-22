@@ -283,7 +283,7 @@ std::pair<bool, std::string> Bst::find_node(std::string key)
     return std::make_pair(false, "");
 }
 
-Node *Bst::upsert_node(std::string key, std::string value)
+bool Bst::upsert_node(std::string key, std::string value)
 {
 
     LOCK(&bst_lock);
@@ -293,7 +293,7 @@ Node *Bst::upsert_node(std::string key, std::string value)
         // Lock the BST whenever we might modify root
         root = init_node(key, value);
         UNLOCK(&bst_lock);
-        return root;
+        return true;
     }
 
     // Lock the root
@@ -324,7 +324,7 @@ Node *Bst::upsert_node(std::string key, std::string value)
             // If the key already exists, we update the node
             node->value = value;
             UNLOCK(&prev->lock);
-            return node;
+            return false;
         }
         else
         {
@@ -349,7 +349,7 @@ Node *Bst::upsert_node(std::string key, std::string value)
         node->right = new_node;
 
     UNLOCK(&node->lock);
-    return new_node;
+    return true;
 }
 
 void Bst::print_inorder(Node *root)

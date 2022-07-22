@@ -40,7 +40,7 @@ public:
      * @param key The key
      * @param value The value
      */
-    void upsert(std::string key, std::string value);
+    UPSERT upsert(std::string key, std::string value);
 
     /**
      * @brief Retrieve the value given the key
