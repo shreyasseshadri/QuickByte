@@ -35,7 +35,7 @@ Although both in-memory and on-disk options are supported, a lot more work has g
   G1 -->  G2
 ```
 
-* - Yet to be implemented
+\* - Yet to be implemented
 ## Instructions to run
 
 ### Client
