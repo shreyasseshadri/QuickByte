@@ -6,6 +6,7 @@ Initially starting off as an implementation of a basic DB using an append only f
 Although both in-memory and on-disk options are supported, a lot more work has gone in to making the on-disk BST as efficient as possible, as a result there are lots of scope for improvement on the outer layers of the key-value store such as the Query Processor and the Server.
 
 ## High Level design
+(Check in a browser for the diagram to render)
 
 ```mermaid
   flowchart TD
@@ -33,6 +34,8 @@ Although both in-memory and on-disk options are supported, a lot more work has g
   
   G1 -->  G2
 ```
+
+* - Yet to be implemented
 ## Instructions to run
 
 ### Client
