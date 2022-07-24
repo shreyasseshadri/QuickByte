@@ -70,7 +70,7 @@ To run
 make test-query-engine
 ./test.out
 ```
-
+Currently tested 10,000 threads upserting, deleting and writing into the bst concurrently 
 #### Testing the in-memory storage engine
 ```
 make test
