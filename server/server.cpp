@@ -122,6 +122,7 @@ void Server::doWork()
           // Only wake up if there are elements in the queue or the program is
           // shutting down
           return !workQueue.empty() || done; });
+          // Only a single thread is allowed the mutex
 
             if (!workQueue.empty())
             {
@@ -129,6 +130,7 @@ void Server::doWork()
                 workQueue.pop();
             }
         }
+        // After this scope g is destroyed
 
         processRequest(connection);
     }
@@ -148,6 +150,7 @@ void Server::processRequest(int connection)
         char buffer[1024];
 
         auto bytesRead = read(connection, buffer, 1024);
+        buffer[bytesRead] = 0;
 
         if (bytesRead < 0)
             continue;
@@ -164,9 +167,7 @@ void Server::processRequest(int connection)
 
         std::string response = make_server_response_from_query_response(query_response);
         send(connection, response.c_str(), response.size(), 0);
-
-        // Add some work to the thread pool
-        bzero(buffer, 1024);
+        
     }
 }
 
