@@ -7,7 +7,9 @@
 class Segment
 {
 public:
+    // A link to the next Segment
     Segment *next;
+    // A link to the previous Segment
     Segment* prev;
 
     Indexer *indexer;
