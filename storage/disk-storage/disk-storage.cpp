@@ -77,7 +77,11 @@ bool DiskStorage::delete_key(std::string key)
     bool isDeleted = false;
     Segment *segmentPointer = currentSegment;
 
-    while (segmentPointer && !isDeleted)
+
+    // We can alternatively only mark a toumbstone on the latest segment and break,
+    // But that would involve forcing the indexer to follow a specfic implementation,
+    // making the storage of segment's indexer implementation. More thought needed on this
+    while (segmentPointer)     // Delete on all the segments
     {
         isDeleted = segmentPointer->delete_if_exists(key);
     }
