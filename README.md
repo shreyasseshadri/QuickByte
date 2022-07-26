@@ -37,7 +37,7 @@ Some advantages of this design over the previous:
 - There are two main components involved, Segments and a memtable, both of which have their basic APIs implemented
 - A linked list is being used to keep track of segments and to preserve memory (as opposed to using an array)
 - A hash map is being used as an indexer
-- A BST is being used for the memtable. A lot of effort went into desigining the BST with as few amount of simultaneous latches as possible, to allow multiple threads to mutate the BST simultaneously without blocking rest of the tree. <br> **Currently the test suite spawns 10,000 threads which issue 3 upserts, 4 retrieves, and 1 delete calls on the BST, taking an average time of about 257ms (averaged over 100 times)**
+- A BST is being used for the memtable. A lot of effort went into desigining the BST with as few amount of simultaneous latches as possible, to allow multiple threads to mutate the BST simultaneously without blocking rest of the tree. <br> **Currently the test suite spawns 10,000 threads which issue upserts, retrieves, and delete calls on the BST, taking an average time of about 257ms (averaged over 100 times)**
 
 ## Details about implementation
 - [Storage](/storage/README.md)
