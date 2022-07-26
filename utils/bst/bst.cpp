@@ -71,14 +71,16 @@ Node *Bst::delete_node_given_node(Node *node)
     else if (node->left == NULL)
     {
         LOCK(&node->right->lock);
+        Node* temp = node->right;
         free_node(node);
-        return node->right;
+        return temp;
     }
     else if (node->right == NULL)
     {
         LOCK(&node->left->lock);
+        Node* temp = node->left;
         free_node(node);
-        return node->left;
+        return temp;
     }
     else // Two children
     {
