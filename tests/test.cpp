@@ -5,6 +5,7 @@
 #include <threads.h>
 
 #include "../storage/storage.hpp"
+#include <time.h>
 
 void test_engine_concurrency(Storage *storage, int id)
 {
@@ -38,12 +39,15 @@ void test_engine(Storage *storage)
 	assert(storage->retrieve("key2").first == false);
 }
 
-int main()
+double testing_concurrency()
 {
 	Storage *in_memory_storage = Storage::factory(IN_MEMORY, true);
 	int n = 10000;
 	std::thread mythreads[n];
+	clock_t start, end;
+	double cpu_time_used;
 
+	start = clock();
 	for (int i = 0; i < n; i++)
 	{
 		mythreads[i] = std::thread(test_engine_concurrency, in_memory_storage, i);
@@ -53,7 +57,22 @@ int main()
 	{
 		mythreads[i].join();
 	}
+	end = clock();
+	cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
 	delete in_memory_storage;
-	return 0;
+	return cpu_time_used;
+}
+
+int main()
+{
+	long double time_taken = 0;
+	int n_times = 100;
+	for (int i = 0; i < n_times; i++)
+	{
+		time_taken += testing_concurrency();
+	}
+
+
+	printf("%f",(double)time_taken/n_times);
 }
