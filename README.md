@@ -29,7 +29,7 @@ This approach still retains the problems of segments and indexer
 
 Some advantages of this design over the previous:
 - Since the contents of each segment is sorted, the compaction process become much simpler.
-- Even though the memory for the indexer is a bottle neck, we can try to cut down the memory used by using sparse index
+- Even though the memory for the indexer is a bottle neck, we can try to cut down the memory used by using a sparse index, since the entries in the segment are sorted
 
 
 ## Summary of what is done
@@ -37,7 +37,7 @@ Some advantages of this design over the previous:
 - There are two main components involved, Segments and a memtable, both of which have their basic APIs implemented
 - A linked list is being used to keep track of segments and to preserve memory (as opposed to using an array)
 - A hash map is being used as an indexer
-- A BST is being used for the memtable. A lot of effort went into desigining the BST with as few amount of simultaneous latches as possible, to allow multiple threads to mutate the BST simultaneously without blocking rest of the tree. **Currently 10,000 threads have been tested with upsert, retrieve, and delete calls on the BST**
+- A BST is being used for the memtable. A lot of effort went into desigining the BST with as few amount of simultaneous latches as possible, to allow multiple threads to mutate the BST simultaneously without blocking rest of the tree. <br> **Currently the test suite spawns 10,000 threads which issue 3 upserts, 4 retrieves, and 1 delete calls on the BST, taking an average time of about 257ms (averaged over 100 times)**
 
 ## Details about implementation
 - [Storage](/storage/README.md)
